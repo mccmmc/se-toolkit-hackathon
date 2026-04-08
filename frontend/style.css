@@ -23,6 +23,7 @@ body {
 header {
     text-align: center;
     margin-bottom: 2rem;
+    position: relative;
 }
 
 header h1 {
@@ -36,12 +37,88 @@ header h1 {
     font-size: 1rem;
 }
 
+/* Connection Status Indicator */
+.connection-status {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.connection-status.connected {
+    color: #27ae60;
+    background: #e8f8f0;
+}
+
+.connection-status.disconnected {
+    color: #e74c3c;
+    background: #ffe5e5;
+}
+
 h2 {
     font-size: 1.5rem;
     color: #333;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 2px solid #eee;
+}
+
+/* Shopping List Section */
+.shopping-list-section {
+    background: #fff9e6;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border: 2px solid #ffd700;
+}
+
+.shopping-list-section h2 {
+    border-bottom-color: #ffd700;
+    margin-bottom: 1rem;
+}
+
+.shopping-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.shopping-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    border-left: 4px solid #e74c3c;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.shopping-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.shopping-item-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #e74c3c;
+    margin-bottom: 0.25rem;
+}
+
+.shopping-item-details {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.empty-message {
+    text-align: center;
+    color: #888;
+    padding: 1rem;
+    font-size: 1rem;
 }
 
 /* Add Product Form */
@@ -109,6 +186,23 @@ h2 {
     transform: translateY(-2px);
 }
 
+.btn-success {
+    background: #27ae60;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.btn-success:hover {
+    background: #229954;
+}
+
+.btn-success:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .btn-danger {
     background: #e74c3c;
     color: white;
@@ -118,6 +212,11 @@ h2 {
 
 .btn-danger:hover {
     background: #c0392b;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
 }
 
 /* Products List */
@@ -282,5 +381,21 @@ h2 {
 
     .form-row {
         flex-direction: column;
+    }
+
+    .shopping-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .shopping-item button {
+        width: 100%;
+    }
+
+    .connection-status {
+        position: static;
+        display: inline-block;
+        margin-top: 0.5rem;
     }
 }
