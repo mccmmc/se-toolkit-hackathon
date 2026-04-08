@@ -52,5 +52,3 @@ The product allows users to view a complete list of all tracked products along w
 - Separate shopping list section showing only critical items
 - Real-time updates across all users
 - Input validation (quantity cannot go negative)
-- Optional: room support for different groups
-- Deployment to cloud (Render + Supabase + Netlify)
