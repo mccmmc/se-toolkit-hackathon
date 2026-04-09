@@ -6,6 +6,10 @@ CSE-03
 
 A shared web-based low-stock tracker that automatically highlights products needing replenishment when their quantity falls below a set threshold.
 
+## Site
+http://10.93.25.144:8000/
+
+
 ## Demo
 
 <!-- Add screenshots here -->
