@@ -1,12 +1,18 @@
 # Tracker — Low Stock Alert: Shared Pantry Tracker
 
+Author: Maksim Potushinskii
+m.potushinskii@innopolis.university
+CSE-03
+
 A shared web-based low-stock tracker that automatically highlights products needing replenishment when their quantity falls below a set threshold.
 
 ## Demo
 
 <!-- Add screenshots here -->
-![Product list with low-stock highlight](demo/screenshot1.png)
-![Add product form](demo/screenshot2.png)
+<img width="1897" height="892" alt="image" src="https://github.com/user-attachments/assets/eac4fdf7-5531-43bc-a49b-e8cbb01d2452" />
+<img width="971" height="193" alt="image" src="https://github.com/user-attachments/assets/b7e5e999-9ae5-425c-93ef-dcce2c196cc1" />
+<img width="956" height="273" alt="image" src="https://github.com/user-attachments/assets/2fcaf333-364e-4e10-be36-fe62431d1bd6" />
+
 
 ## Product Context
 
@@ -17,7 +23,7 @@ A shared web-based low-stock tracker that automatically highlights products need
 
 ### Problem
 
-In shared living or working spaces, people frequently forget to notify others when common supplies like milk, bread, coffee, or sugar are almost gone. This leads to frustrating situations where someone goes to the store only to discover the product is already finished, or finds out late at night that there is no coffee left while the store is already closed.
+In shared living or working spaces, people frequently forget to notify others when common supplies like milk, bread, coffee, or sugar are almost gone.
 
 ### Solution
 
@@ -32,14 +38,15 @@ Tracker automatically highlights low-stock items in red on everyone's screen as 
 - Automatic red highlight when quantity ≤ threshold
 - Add new product form (name, starting quantity, threshold)
 - Delete product button
-- No page reloads (fetch API / HTTP requests)
-
-### Planned (Version 2)
-
 - "Bought" button — resets quantity to max value in one click
 - Separate shopping list section showing only critical items
 - Real-time updates across all users
 - Input validation (quantity cannot go negative)
+
+### Implemented
+
+- Audentification system for different rooms
+
 
 ## Usage
 
@@ -56,46 +63,74 @@ Tracker automatically highlights low-stock items in red on everyone's screen as 
 
 Ubuntu 24.04 LTS
 
-### Prerequisites
+### Requirements
 
-- Python 3.12+
-- PostgreSQL
-- pip and virtualenv (or your preferred Python package manager)
-- Docker & Docker Compose (optional, for containerized deployment)
+| Component | Version |
+|-----------|---------|
+| OS | Ubuntu 24.04 LTS (or any modern Linux) |
+| Python | 3.12+ |
+| PostgreSQL | 16+ |
+| Docker | latest (optional, for containerized deployment) |
 
-### Step-by-Step Instructions
+---
 
-1. **Clone the repository:**
-   ```bash
-   git clone <repository-url>
-   cd Tracker
-   ```
+### Option 1: Docker Compose
 
-2. **Set up the Python virtual environment:**
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
-   ```
+The fastest way to get up and running — PostgreSQL and the backend start together.
 
-3. **Configure the database:**
-   - Install and start PostgreSQL
-   - Create a database and user for the application
-   - Update the database connection string in `backend/database.py`
+```bash
+docker-compose up -d
+```
 
-4. **Run the backend:**
-   ```bash
-   cd backend
-   uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-   ```
+The app will be available at `http://localhost:8000`.
 
-5. **Serve the frontend:**
-   - Place the `frontend/` directory behind a web server (e.g., Nginx) or serve it directly
-   - Ensure the frontend is configured to point to the backend API URL
+**Environment variables**:
 
-6. **(Optional) Deploy with Docker Compose:**
-   ```bash
-   docker-compose up -d
-   ```
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://postgres:postgres@db:5432/tracker` |
 
-7. Access the application at `http://<your-vm-ip>:8000` (or the port configured for your web server).
+---
+
+### Option 2: Manual Setup
+
+#### 1. Clone & install dependencies
+
+```bash
+git clone <repository-url>
+cd Tracker
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+#### 2. Set up PostgreSQL
+
+```bash
+sudo apt install -y postgresql postgresql-contrib
+sudo systemctl start postgresql
+sudo -u postgres psql -c "CREATE DATABASE tracker;"
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';"
+```
+
+The default connection string is `postgresql://postgres:postgres@localhost:5432/tracker`.
+To use different credentials, set the `DATABASE_URL` environment variable:
+
+```bash
+export DATABASE_URL=postgresql://user:password@localhost:5432/tracker
+```
+
+#### 3. Run the backend
+
+```bash
+cd backend
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+#### 4. Serve the frontend
+
+Open `frontend/index.html` in a browser, or serve it with any static file server (Nginx, Caddy, Python's `http.server`, etc.). Make sure the frontend's API calls point to the correct backend URL.
+
+#### 5. Access the app
+
+Open `http://<your-ip>:8000` in your browser.
